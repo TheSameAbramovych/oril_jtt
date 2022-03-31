@@ -1,18 +1,20 @@
 package com.test.oril_jtt.converter.csv;
 
 import com.test.oril_jtt.entity.Currency;
+import com.test.oril_jtt.entity.CurrencyPrice;
 import com.test.oril_jtt.service.CurrencyPairService;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static lombok.AccessLevel.PRIVATE;
-
 
 @Service
 @AllArgsConstructor
@@ -33,8 +35,8 @@ public class CSVReportCreatorImpl implements CSVReportCreator {
     }
 
     private List<String> convertToRow(Currency currency) {
-        String min = currencyPairService.getMinPriceFor(currency).getPrice().toString();
-        String max = currencyPairService.getMaxPriceFor(currency).getPrice().toString();
+        String min = Optional.ofNullable(currencyPairService.getMinPriceFor(currency)).map(CurrencyPrice::getPrice).orElse(BigDecimal.ZERO).toString();
+        String max = Optional.ofNullable(currencyPairService.getMaxPriceFor(currency)).map(CurrencyPrice::getPrice).orElse(BigDecimal.ZERO).toString();
         return List.of(currency.name(), min, max);
     }
 
