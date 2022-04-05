@@ -10,7 +10,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CurrencyPriceRepository extends PagingAndSortingRepository<CurrencyPrice, Long> {
     CurrencyPrice findFirstByFromOrderByPriceDesc(Currency currency);
+
     CurrencyPrice findFirstByFromOrderByPriceAsc(Currency currency);
-    Page<CurrencyPrice> findAllByFrom(Currency currency,Pageable pageable);
+
+    Page<CurrencyPrice> findAllByFrom(Currency currency, Pageable pageable);
+
     CurrencyPrice findFirstByFromOrderByDateDesc(Currency from);
 }

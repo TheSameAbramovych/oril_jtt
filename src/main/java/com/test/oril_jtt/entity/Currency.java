@@ -16,7 +16,7 @@ public enum Currency {
     @Getter
     private final boolean main;
 
-    Currency(){
+    Currency() {
         this(false);
     }
 
@@ -24,11 +24,11 @@ public enum Currency {
         this.main = main;
     }
 
-    public static Currency getMainCurrency(){
+    public static Currency getMainCurrency() {
         return Arrays.stream(values()).filter(Currency::isMain).findFirst().orElse(null);
     }
 
-    public static List<Currency> getCurrencies(){
+    public static List<Currency> getCurrencies() {
         return Arrays.stream(values()).filter(Predicate.not(Currency::isMain)).collect(Collectors.toList());
     }
 }

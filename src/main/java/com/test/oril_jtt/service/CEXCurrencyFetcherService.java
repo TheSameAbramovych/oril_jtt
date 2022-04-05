@@ -49,7 +49,7 @@ public class CEXCurrencyFetcherService implements CurrencyFetcherService {
         try {
             log.info("Fetching {} price...", currency);
             return restTemplate.getForObject("https://cex.io/api/last_price/" + currency + "/" + MAIN_CURRENCY, CEXCurrencyPrice.class);
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("Failed fetching price fore {}", currency);
             return null;
         }

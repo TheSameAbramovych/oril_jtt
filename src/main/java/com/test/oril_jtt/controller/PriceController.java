@@ -1,15 +1,18 @@
 package com.test.oril_jtt.controller;
 
+import com.test.oril_jtt.converter.csv.CSVReportCreator;
 import com.test.oril_jtt.entity.Currency;
 import com.test.oril_jtt.entity.CurrencyPrice;
-import com.test.oril_jtt.converter.csv.CSVReportCreator;
 import com.test.oril_jtt.service.CurrencyPairService;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,6 +21,7 @@ import static lombok.AccessLevel.PRIVATE;
 @RestController
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
+@RequestMapping("/cryptocurrencies")
 public class PriceController {
     CurrencyPairService currencyPairService;
     CSVReportCreator csvReportCreator;
@@ -32,10 +36,10 @@ public class PriceController {
         return currencyPairService.getMaxPriceFor(currency);
     }
 
-    @GetMapping()
-    public List<CurrencyPrice> history(@RequestParam(name = "name")Currency currency,
-                                    @RequestParam(name = "page", defaultValue = "0") int page,
-                                    @RequestParam(name = "size", defaultValue = "10") int size) {
+    @GetMapping
+    public List<CurrencyPrice> history(@RequestParam(name = "name") Currency currency,
+                                       @RequestParam(name = "page", defaultValue = "0") int page,
+                                       @RequestParam(name = "size", defaultValue = "10") int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("price").ascending());
         Page<CurrencyPrice> currencyPrices = currencyPairService.findAll(currency, pageRequest);
         return currencyPrices.getContent();

@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface CurrencyPairService {
     CurrencyPrice getMinPriceFor(Currency currency);
+
     CurrencyPrice getMaxPriceFor(Currency currency);
+
     Page<CurrencyPrice> findAll(Currency currency, Pageable pageable);
 }
